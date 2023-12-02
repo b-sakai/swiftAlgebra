@@ -16,7 +16,7 @@ extension Group {
     }
 }
 
-protocol AditiveGroup : Equatable {
+protocol AdditiveGroup : Equatable {
     static func +(a: Self, b: Self) -> Self
     prefix static func -(a: Self) -> Self
     static var zero: Self { get }
@@ -24,7 +24,7 @@ protocol AditiveGroup : Equatable {
 
 typealias Z = Int
 
-extension Z: AditiveGroup {
+extension Z: AdditiveGroup {
     static var zero: Z {return 0 }
 }
 

@@ -3,7 +3,7 @@ protocol Monoid: Equatable {
     static var identity: Self {get}
 }
 
-protocol Ring: AditiveGroup, Monoid {
+protocol Ring: AdditiveGroup, Monoid {
     init(_ initValut: Int)
 }
 
