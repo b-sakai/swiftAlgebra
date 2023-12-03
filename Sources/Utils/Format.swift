@@ -131,11 +131,17 @@ extension Monoid {
     static func printMulTable(values: [Self]) {
         print( Format.table(rows: values, cols: values, symbol: "*") { $0 * $1 } )
     }
-
+        static func printExpTable(values: [Self], upTo n: Int) {
+        print( Format.table(rows: values, cols: Array(0 ... n), symbol: "^") { $0.pow($1) } )
+    }
 }
 
 extension Monoid where Self: FiniteSet {
     static func printMulTable() {
         printMulTable(values: allElements)
+    }
+    static func printExpTable() {
+        let all = allElements
+        printExpTable(values: all, upTo: all.count - 1)
     }
 }
