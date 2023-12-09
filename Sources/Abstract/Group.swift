@@ -21,6 +21,11 @@ protocol AdditiveGroup : Equatable {
     prefix static func -(a: Self) -> Self
     static var zero: Self { get }
 }
+extension AdditiveGroup {
+     var isZero: Bool {
+        self == .zero
+    }
+}
 
 typealias Z = Int
 
