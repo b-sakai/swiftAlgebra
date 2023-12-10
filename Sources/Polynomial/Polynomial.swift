@@ -44,6 +44,10 @@ func +<K: Field>(f: Polynomial<K>, g:Polynomial<K>) -> Polynomial<K> {
     let n = max(f.degree, g.degree)
     return Polynomial<K>(degree: n) { i in f[i] + g[i] }
 }
+func -<K: Field>(f: Polynomial<K>, g:Polynomial<K>) -> Polynomial<K> {
+    let n = max(f.degree, g.degree)
+    return Polynomial<K>(degree: n) { i in f[i] + (-g[i]) }
+}
 prefix func -<K: Field>(f: Polynomial<K>) -> Polynomial<K> {
     return Polynomial<K>(degree: f.degree) { i in -f[i] }
 }
