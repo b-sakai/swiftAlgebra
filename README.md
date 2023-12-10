@@ -17,3 +17,6 @@ structs -> https://github.com/taketo1024/swm-core/tree/main/Sources/SwmCore/Numb
 
 * それぞれのstructファイルにおけるテスト関数は適当に自分で考えて定義した
 * IntegerLiteralConvertibleは最新のコンパイラだと使えなかったので、代替プロトコルである ExpressibleByIntegerLiteralを利用した
+* Qitaの記事にはすべての定義は乗っておらず、自前で実装している
+* 著者のリポジトリの過去のコミットも探してみたが、記事のテストコードが動くようなコミットは結局探し当てられなかった
+* 最後の「体としての剰余環」、C（と行ってもこれもテストコードの中で定義しただけでだが）以外は未実装
