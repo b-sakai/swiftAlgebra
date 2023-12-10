@@ -29,7 +29,7 @@ struct PolynomialQuotient<g: TPPolynomial> : Equatable {
         return PolynomialQuotient<g>(lhs.f + rhs.f)        
     }
     static func ==<g: TPPolynomial>(x: PolynomialQuotient<g>, y: PolynomialQuotient<g>) -> Bool {
-        let (q, r) = eucDiv((x.f - y.f), g.value)
+        let (q, r) = Polynomial<g.K>.eucDiv((x.f - y.f), g.value)
         return r == Polynomial<g.K>.zero
     }
 }
@@ -48,5 +48,27 @@ func testPolynomialQuotient() {
     print(fmod)
     print(r)
     print(fmod == r)
+
+    let f1 = Polynomial<Q>(coeffs: [0, 2, -3, 1])  // x^3 - 3x^2 + 2x
+    let g1 = Polynomial<Q>(coeffs: [6, -5, 1])     // x^2 - 5x + 6
+    print(gcd(f1, g1))  // 6x - 12
+    let (p1, q1, r1) = bezout(f1, g1)
+    print(p1)  // 1
+    print(q1)  // -x - 2
+    print(r1)  // 6x - 12
+    print(f1 * p1 + g1 * q1 == r1)  // true
+
+
+    let f2 = Polynomial<Q>(coeffs: [1, 1])  // x + 1
+    let g2: Polynomial<Q> = Polynomial<Q>(coeffs: [-2, 0, 1]) // x^2 - 2
+
+    let (p2, q2, r2) = bezout(f2, g2)
+    print(p2) // -x + 1
+    print(q2) // -x - 2
+    print(r2) // -1
+
+    print(f2 * (-p2)) // x^2 - 1
+    print(f2 * (-p2) % g2 == -r2) // true
+
     print("--- testPolynomialQuotient end---")
 }

@@ -1,4 +1,9 @@
-struct Polynomial<K: Field> : Equatable {
+struct Polynomial<K: Field> : EuclideanRing {
+    init(_ initValue: Int) {
+        let a = K(initValue)
+        self.init(coeffs: [a])
+    }
+
     private let coeffs: [K] // K型の係数リスト
 
     init(coeffs: [K]) {
@@ -16,6 +21,9 @@ struct Polynomial<K: Field> : Equatable {
     }
     static var zero: Self {
         Self.init(coeffs: [K(0)])
+    }
+    static var identity: Self {
+        Self.init(coeffs: [K(1)])
     }
 
     var degree: Int {
@@ -39,7 +47,7 @@ struct Polynomial<K: Field> : Equatable {
     public static func == (a: Self, b: Self) -> Bool {
         a.coeffs.exclude{ $0.isZero } == b.coeffs.exclude{ $0.isZero }
     }
-}
+}    
 func +<K: Field>(f: Polynomial<K>, g:Polynomial<K>) -> Polynomial<K> {
     let n = max(f.degree, g.degree)
     return Polynomial<K>(degree: n) { i in f[i] + g[i] }
@@ -58,7 +66,9 @@ func *<K: Field>(f: Polynomial<K>, g: Polynomial<K>) -> Polynomial<K> {
         }
     }
 }
-func eucDiv<K: Field>(_ f: Polynomial<K>, _ g: Polynomial<K>) -> (q: Polynomial<K>, r: Polynomial<K>) {
+
+extension Polynomial {
+static func eucDiv<K: Field>(_ f: Polynomial<K>, _ g: Polynomial<K>) -> (q: Polynomial<K>, r: Polynomial<K>) {
     // 0-div error
     if g == Polynomial<K>.zero {
         fatalError("divide by 0")
@@ -84,6 +94,7 @@ func eucDiv<K: Field>(_ f: Polynomial<K>, _ g: Polynomial<K>) -> (q: Polynomial<
         return (q + m.q, m.r)
     }
 }
+}
 
 func testPolynomial() {
     print("--- testPolynomial ---")
@@ -98,7 +109,7 @@ func testPolynomial() {
 
     let f1 = Polynomial<Q>(coeffs: [2, -3, 1, 2])  // 2x^3 + x^2 - 3x + 2
     let g1 = Polynomial<Q>(coeffs: [1, 0, 1])      // x^2 + 1
-    let (q, r) = eucDiv(f1, g1)
+    let (q, r) = Polynomial<Q>.eucDiv(f1, g1)
     print(q)                                    // 2x + 1
     print(r)                                    // -5x + 1
     print(f1 == (g1 * q) + r)                       // true
